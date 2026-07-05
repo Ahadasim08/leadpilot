@@ -20,7 +20,7 @@ create index on chunks using hnsw (embedding vector_cosine_ops);
 create or replace function match_chunks(
   query_embedding vector(384), match_count int, similarity_threshold float)
 returns table (id uuid, document_id uuid, filename text, content text, similarity float)
-language plpgsql stable as $$
+language plpgsql volatile as $$
 begin
   -- Force sequential scan so small datasets are never missed by the index
   set local enable_indexscan = off;
