@@ -1,4 +1,11 @@
+import httpx
+
 from app.config import settings
+
+_HF_API_URL = (
+    "https://api-inference.huggingface.co/pipeline/feature-extraction/"
+    "sentence-transformers/all-MiniLM-L6-v2"
+)
 
 _model = None
 
@@ -18,9 +25,16 @@ def _embed_texts_local(texts: list[str]) -> list[list[float]]:
 
 
 def _embed_texts_api(texts: list[str]) -> list[list[float]]:
-    raise NotImplementedError(
-        "EMBEDDINGS_PROVIDER=api not implemented — only needed if Render OOMs on local model."
+    if not settings.hf_api_key:
+        raise RuntimeError("HF_API_KEY is required when EMBEDDINGS_PROVIDER=api")
+    resp = httpx.post(
+        _HF_API_URL,
+        headers={"Authorization": f"Bearer {settings.hf_api_key}"},
+        json={"inputs": texts, "options": {"wait_for_model": True}},
+        timeout=30,
     )
+    resp.raise_for_status()
+    return resp.json()
 
 
 def embed_texts(texts: list[str]) -> list[list[float]]:

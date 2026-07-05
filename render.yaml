@@ -20,6 +20,8 @@ services:
       - key: GROQ_MODEL
         value: llama-3.3-70b-versatile
       - key: EMBEDDINGS_PROVIDER
-        value: local
+        value: api
+      - key: HF_API_KEY
+        sync: false
       - key: AGENCY_NAME
         value: Acme Digital

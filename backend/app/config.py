@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     groq_api_key: str = ""
     groq_model: str = "llama-3.3-70b-versatile"
     embeddings_provider: str = "local"
+    hf_api_key: str = ""
     agency_name: str = "Acme Digital"
 
     class Config:
