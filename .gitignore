@@ -10,7 +10,7 @@ dist/
 .venv/
 venv/
 .DS_Store
-models/
+/models/
 CLAUDE.md
 INSTRUCTIONS.md
 PROGRESS.md
